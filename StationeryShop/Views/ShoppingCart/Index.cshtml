@@ -1,0 +1,60 @@
+﻿@model StationeryShop.ViewModels.ShoppingCartViewModel
+
+@{
+    ViewData["Title"] = "Giỏ Hàng Của Bạn";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (Model.ShoppingCartItems.Any())
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th class="text-center">Số lượng</th>
+                <th>Sản phẩm</th>
+                <th class="text-right">Giá</th>
+                <th class="text-right">Thành tiền</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @* DÒNG ĐÃ SỬA *@
+            @foreach (var item in Model.ShoppingCartItems)
+            {
+                <tr>
+                    <td class="text-center">@item.Amount</td>
+                    <td class="text-left">@item.Product.Name</td>
+                    <td class="text-right">@item.Product.Price.ToString("N0") VNĐ</td>
+                    <td class="text-right">
+                        @((item.Amount * item.Product.Price).ToString("N0")) VNĐ
+                    </td>
+                    <td class="text-center">
+                        <a class="btn btn-sm btn-danger"
+                           asp-controller="ShoppingCart"
+                           asp-action="RemoveFromShoppingCart"
+                           asp-route-productId="@item.Product.ProductId">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="text-right"><strong>Tổng cộng:</strong></td>
+                <td class="text-right">
+                    <strong>@Model.ShoppingCartTotal.ToString("N0") VNĐ</strong>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="text-right">
+        <a class="btn btn-primary" asp-controller="Order" asp-action="Checkout">Tiến hành thanh toán</a>
+    </div>
+}
+else
+{
+    <div class="alert alert-info" role="alert">
+        Giỏ hàng của bạn đang trống. Hãy <a asp-controller="Product" asp-action="List">chọn sản phẩm</a> để tiếp tục mua sắm!
+    </div>
+}

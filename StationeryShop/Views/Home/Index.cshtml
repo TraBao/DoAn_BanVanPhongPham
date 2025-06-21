@@ -1,0 +1,33 @@
+﻿@model IEnumerable<StationeryShop.Models.Product>
+
+@{
+    ViewData["Title"] = "Trang Chủ";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Chào mừng đến với Cửa Hàng Văn Phòng Phẩm</h1>
+    <p>Tất cả những gì bạn cần cho văn phòng của mình.</p>
+</div>
+
+<h2 class="mt-5">Sản Phẩm Bán Chạy</h2>
+
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-md-4 col-sm-6">
+            <div class="card mb-4">
+                <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.ProductId">
+                    <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name" style="height: 250px; object-fit: cover;">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.ProductId">@product.Name</a>
+                    </h5>
+                    <p class="card-text text-danger font-weight-bold">@product.Price.ToString("N0") VNĐ</p>
+                    <p class="card-text">@product.ShortDescription</p>
+                    <a class="btn btn-primary" asp-controller="Product" asp-action="Detail" asp-route-id="@product.ProductId">Xem chi tiết</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

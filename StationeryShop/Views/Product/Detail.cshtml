@@ -1,0 +1,28 @@
+﻿@model StationeryShop.Models.Product
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<h1>@Model.Name</h1>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded" />
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title text-danger">@Model.Price.ToString("N0") VNĐ</h3>
+                <p><strong>Mô tả ngắn:</strong> @Model.ShortDescription</p>
+                <p><strong>Mô tả chi tiết:</strong> @Model.LongDescription</p>
+                <p><strong>Số lượng trong kho:</strong> @Model.StockQuantity</p>
+                <hr />
+                <a class="btn btn-primary" 
+                   asp-controller="ShoppingCart" 
+                   asp-action="AddToShoppingCart" 
+                   asp-route-productId="@Model.ProductId">Thêm vào giỏ hàng</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,75 @@
+﻿@model StationeryShop.Models.Product
+
+@{
+    ViewData["Title"] = "Chỉnh Sửa Sản Phẩm";
+    Layout = "~/Views/Admin/Shared/_AdminLayout.cshtml";
+}
+
+<h1>@ViewData["Title"]: @Model.Name</h1>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form action="/Admin/EditProduct/@Model.ProductId" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="ProductId" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="ShortDescription" class="control-label">Mô tả ngắn</label>
+                <textarea asp-for="ShortDescription" class="form-control"></textarea>
+                <span asp-validation-for="ShortDescription" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="LongDescription" class="control-label">Mô tả chi tiết</label>
+                <textarea asp-for="LongDescription" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="LongDescription" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label asp-for="Price" class="control-label">Giá</label>
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label asp-for="StockQuantity" class="control-label">Số lượng tồn kho</label>
+                        <input asp-for="StockQuantity" class="form-control" />
+                        <span asp-validation-for="StockQuantity" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="ImageUrl" class="control-label">Đường dẫn ảnh</label>
+                <input asp-for="ImageUrl" class="form-control" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="CategoryId" class="control-label">Danh mục</label>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-check mb-3">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsBestSeller" /> Bán chạy nhất?
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+﻿@model IEnumerable<StationeryShop.Models.Product>
+
+@{
+    ViewData["Title"] = "Tất cả sản phẩm";
+}
+
+<h1>@ViewData["Title"]</h1>
+@if (ViewData["CurrentFilter"] != null && !String.IsNullOrEmpty(ViewData["CurrentFilter"].ToString()))
+{
+    <h4>Kết quả tìm kiếm cho: "@ViewData["CurrentFilter"]"</h4>
+}
+else
+{
+    <p>Khám phá tất cả các sản phẩm tuyệt vời của chúng tôi!</p>
+}
+
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-md-4 col-sm-6">
+            <div class="card mb-4">
+                <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name" style="height: 250px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.ProductId">@product.Name</a>
+                    </h5>
+                    <p class="card-text text-danger font-weight-bold">@product.Price.ToString("N0") VNĐ</p>
+                    <p class="card-text">@product.ShortDescription</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>

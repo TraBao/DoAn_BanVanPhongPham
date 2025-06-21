@@ -1,0 +1,54 @@
+﻿@model StationeryShop.Models.Order
+
+<h2>Thông Tin Giao Hàng</h2>
+<p>Vui lòng điền đầy đủ thông tin để chúng tôi có thể giao hàng cho bạn.</p>
+
+<form asp-action="Checkout" method="post" class="form-horizontal" role="form">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group mb-3">
+        <label asp-for="LastName" class="col-md-2 control-label">Họ</label>
+        <div class="col-md-5">
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="FirstName" class="col-md-2 control-label">Tên</label>
+        <div class="col-md-5">
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Address" class="col-md-2 control-label">Địa chỉ</label>
+        <div class="col-md-5">
+            <input asp-for="Address" class="form-control" />
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="PhoneNumber" class="col-md-2 control-label">Số điện thoại</label>
+        <div class="col-md-5">
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Email" class="col-md-2 control-label">Email</label>
+        <div class="col-md-5">
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <div class="col-md-offset-2 col-md-5">
+            <input type="submit" class="btn btn-primary" value="Hoàn tất đơn hàng" />
+        </div>
+    </div>
+</form>
