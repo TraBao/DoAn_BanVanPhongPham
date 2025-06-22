@@ -1,32 +1,57 @@
 ﻿@model IEnumerable<StationeryShop.Models.Product>
 
 @{
-    ViewData["Title"] = "Tất cả sản phẩm";
+    ViewData["Title"] = "Danh Sách Sản Phẩm";
 }
 
-<h1>@ViewData["Title"]</h1>
-@if (ViewData["CurrentFilter"] != null && !String.IsNullOrEmpty(ViewData["CurrentFilter"].ToString()))
-{
-    <h4>Kết quả tìm kiếm cho: "@ViewData["CurrentFilter"]"</h4>
-}
-else
-{
-    <p>Khám phá tất cả các sản phẩm tuyệt vời của chúng tôi!</p>
-}
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+
+    @if (ViewData["CurrentFilter"] != null && !String.IsNullOrEmpty(ViewData["CurrentFilter"]?.ToString()))
+    {
+        <h4>Kết quả tìm kiếm cho từ khóa: "@ViewData["CurrentFilter"]"</h4>
+    }
+    else
+    {
+        <p>Khám phá tất cả các sản phẩm tuyệt vời của chúng tôi!</p>
+    }
+</div>
+
+<hr />
 
 <div class="row">
-    @foreach (var product in Model)
+    @if (Model.Any())
     {
-        <div class="col-md-4 col-sm-6">
-            <div class="card mb-4">
-                <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name" style="height: 250px; object-fit: cover;">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.ProductId">@product.Name</a>
-                    </h5>
-                    <p class="card-text text-danger font-weight-bold">@product.Price.ToString("N0") VNĐ</p>
-                    <p class="card-text">@product.ShortDescription</p>
+        @foreach (var product in Model)
+        {
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.ProductId">
+                        <img class="card-img-top" src="@(product.ImageUrl ?? "/images/placeholder.png")" alt="@product.Name" style="height: 250px; object-fit: cover;">
+                    </a>
+
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">
+                            <a asp-controller="Product" asp-action="Detail" asp-route-id="@product.ProductId">@product.Name</a>
+                        </h5>
+
+                        <h6 class="card-subtitle mb-2 text-danger">@product.Price.ToString("N0") VNĐ</h6>
+
+                        <p class="card-text">@product.ShortDescription</p>
+
+                        <div class="mt-auto text-center">
+                            <a class="btn btn-primary" asp-controller="Product" asp-action="Detail" asp-route-id="@product.ProductId">Xem chi tiết</a>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-12">
+            <div class="alert alert-warning" role="alert">
+                Không tìm thấy sản phẩm nào phù hợp với từ khóa của bạn.
             </div>
         </div>
     }

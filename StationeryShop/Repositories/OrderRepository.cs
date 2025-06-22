@@ -1,4 +1,5 @@
-﻿using StationeryShop.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using StationeryShop.Data;
 using StationeryShop.Interfaces;
 using StationeryShop.Models;
 using StationeryShop.Repositories.Interfaces;
@@ -35,6 +36,16 @@ namespace StationeryShop.Repositories
             order.OrderPlaced = DateTime.Now;
             _context.Orders.Add(order);
             _context.SaveChanges();
+        }
+        public IEnumerable<Order> GetOrdersByUserId(string userId)
+        {
+            var orders = _context.Orders
+                                 .Where(o => o.UserId == userId)
+                                 .Include(o => o.OrderDetails)
+                                 .ThenInclude(od => od.Product)
+                                 .OrderByDescending(o => o.OrderPlaced);
+
+            return orders;
         }
     }
 }

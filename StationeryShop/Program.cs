@@ -10,29 +10,16 @@ using StationeryShop.Repositories.Interfaces;
 using StationeryShop.ShoppingCart;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
-    var supportedCultures = new[]
-    {
-        new CultureInfo("en-US")
-    };
+    var supportedCultures = new[] { new CultureInfo("en-US") };
     options.DefaultRequestCulture = new RequestCulture("en-US");
     options.SupportedCultures = supportedCultures;
     options.SupportedUICultures = supportedCultures;
 });
+
 builder.Services.AddControllersWithViews();
-
-builder.Services.Configure<RequestLocalizationOptions>(options =>
-{
-    var supportedCultures = new[]
-    {
-        new CultureInfo("en-US")
-    };
-
-    options.DefaultRequestCulture = new RequestCulture("en-US");
-    options.SupportedCultures = supportedCultures;
-    options.SupportedUICultures = supportedCultures;
-});
 
 builder.Services.AddDbContext<StationeryShopDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -42,12 +29,20 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IShoppingCart>(sp => StationeryShop.ShoppingCart.ShoppingCart.GetCart(sp));
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddRoles<IdentityRole>()
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+})
     .AddEntityFrameworkStores<StationeryShopDbContext>();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+});
+
 builder.Services.AddRazorPages();
 builder.Services.AddSession();
-
 
 var app = builder.Build();
 
@@ -61,7 +56,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRequestLocalization();
-
 app.UseRouting();
 
 app.UseSession();
