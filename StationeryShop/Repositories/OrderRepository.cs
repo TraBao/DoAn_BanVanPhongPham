@@ -16,9 +16,9 @@ namespace StationeryShop.Repositories
             _context = context;
             _shoppingCart = shoppingCart;
         }
-
         public void CreateOrder(Order order)
         {
+            order.OrderPlaced = DateTime.Now;
             var shoppingCartItems = _shoppingCart.GetShoppingCartItems();
             order.OrderTotal = _shoppingCart.GetShoppingCartTotal();
             order.OrderDetails = new List<OrderDetail>();
@@ -29,11 +29,17 @@ namespace StationeryShop.Repositories
                 {
                     Quantity = item.Amount,
                     ProductId = item.Product.ProductId,
-                    Price = item.Product.Price
+                    Price = item.Product.Price 
                 };
                 order.OrderDetails.Add(orderDetail);
+                var productInDb = _context.Products.Find(item.Product.ProductId);
+
+                if (productInDb != null)
+                {
+                    productInDb.StockQuantity -= item.Amount;
+                }
             }
-            order.OrderPlaced = DateTime.Now;
+
             _context.Orders.Add(order);
             _context.SaveChanges();
         }

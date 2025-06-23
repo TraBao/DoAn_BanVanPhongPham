@@ -1,0 +1,52 @@
+﻿@model EditUserViewModel
+
+@{
+    ViewData["Title"] = "Chỉnh sửa người dùng";
+    Layout = ViewData["Layout"]?.ToString();
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <input asp-for="Id" type="hidden" />
+
+    <div class="form-group mb-3">
+        <label asp-for="UserName" class="control-label"></label>
+        <input asp-for="UserName" class="form-control" readonly /> 
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" readonly />
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3>Quản lý vai trò (Roles)</h3>
+        </div>
+        <div class="card-body">
+            @if (ViewBag.AllRoles != null)
+            {
+                @foreach (var role in ViewBag.AllRoles)
+                {
+                    <div class="form-check m-1">
+                        <input type="checkbox" name="selectedRoles" value="@role.Name"
+                               class="form-check-input"
+                        @(Model.Roles.Contains(role.Name) ? "checked" : "") />
+                        <label class="form-check-label">
+                            @role.Name
+                        </label>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+    <div class="form-group mt-3">
+        <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
+        <a asp-action="UserManagement" class="btn btn-secondary">Quay lại</a>
+    </div>
+</form>
